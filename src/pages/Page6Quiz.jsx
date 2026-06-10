@@ -8,11 +8,7 @@ export default function Page6Quiz() {
 
   return (
     <PageShell
-      title={page.title}
-      subtitle={page.subtitle}
-      imageSrc={page.imageSrc}
-      imageAlt={page.imageAlt}
-      imageLabel={page.imageLabel}
+      {...page}
       nextTo="/page-7"
       nextText="Next Page"
     >

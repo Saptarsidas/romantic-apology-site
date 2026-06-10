@@ -8,11 +8,7 @@ export default function Page2Apology() {
 
   return (
     <PageShell
-      title={page.title}
-      subtitle={page.subtitle}
-      imageSrc={page.imageSrc}
-      imageAlt={page.imageAlt}
-      imageLabel={page.imageLabel}
+      {...page}
       nextTo="/page-3"
       nextText="Next Page"
     >

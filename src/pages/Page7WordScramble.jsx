@@ -9,11 +9,7 @@ export default function Page7WordScramble() {
 
   return (
     <PageShell
-      title={page.title}
-      subtitle={page.subtitle}
-      imageSrc={page.imageSrc}
-      imageAlt={page.imageAlt}
-      imageLabel={page.imageLabel}
+      {...page}
       showNext={false}
     >
       <WordScrambleGame />

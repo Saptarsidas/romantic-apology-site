@@ -22,8 +22,9 @@ Open `http://localhost:5173/admin` to edit titles, messages, and photo URLs dyna
 Admin is now password protected:
 
 - Login URL: `/admin-login`
-- Default password: `Saptarsidas@2026`
-- You can change the password from inside the Admin panel.
+- Set the initial password with `ADMIN_PASSWORD` on Render.
+- Set a strong `COOKIE_SECRET` on Render for signed admin sessions.
+- You can change the password from inside the Admin panel after logging in.
 
 ## Add Your Pictures
 
@@ -35,7 +36,11 @@ Option 1 (recommended):
 Option 1B:
 
 - In Admin page, use `Upload Picture` to upload directly from your device.
-- Uploaded image is stored in browser storage and shown instantly.
+- Uploaded image is stored on the server and shown instantly.
+
+Crop controls:
+
+- Use `Image Fit` and the focus sliders to position portraits or wide images cleanly.
 
 Option 2:
 

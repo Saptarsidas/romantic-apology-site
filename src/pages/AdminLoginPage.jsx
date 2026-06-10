@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { DEFAULT_ADMIN_PASSWORD, loginAdmin } from "../auth/adminAuth";
+import { useAdminAuth } from "../auth/AdminAuthContext";
 
 export default function AdminLoginPage() {
   const navigate = useNavigate();
+  const { login } = useAdminAuth();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,15 +14,15 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
 
-    const ok = await loginAdmin(password);
+    const result = await login(password);
     setLoading(false);
 
-    if (ok) {
+    if (result.ok) {
       navigate("/admin", { replace: true });
       return;
     }
 
-    setError("Wrong password. Try again.");
+    setError(result.message || "Wrong password. Try again.");
   };
 
   return (
@@ -53,10 +54,6 @@ export default function AdminLoginPage() {
             {loading ? "Checking..." : "Login"}
           </button>
         </form>
-
-        <p className="mt-4 text-xs text-rose-700">
-          Default password: <span className="font-bold">{DEFAULT_ADMIN_PASSWORD}</span>
-        </p>
 
         <Link to="/" className="mt-4 inline-block text-sm font-semibold text-rose-700 underline">
           Back to Website

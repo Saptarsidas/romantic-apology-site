@@ -5,6 +5,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "You looking adorably angry",
     imageLabel: "Image Placeholder: You looking adorably angry",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page2: {
     title: "I am so sorry! ❤️",
@@ -12,6 +15,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "Our favorite photo together",
     imageLabel: "Image Placeholder: Our favorite photo together",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page3: {
     title: "Our Little Battles",
@@ -19,6 +25,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "A playful candid memory",
     imageLabel: "Image Placeholder: A playful candid memory",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page4: {
     title: "Pieces Of Us",
@@ -26,6 +35,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "One of our sweetest moments",
     imageLabel: "Image Placeholder: One of our sweetest moments",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page5: {
     title: "Heart Rush",
@@ -33,6 +45,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "A goofy happy selfie",
     imageLabel: "Image Placeholder: A goofy happy selfie",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page6: {
     title: "Know My Promise",
@@ -40,6 +55,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "A calm cozy photo of us",
     imageLabel: "Image Placeholder: A calm cozy photo of us",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
   page7: {
     title: "Final Promise",
@@ -47,6 +65,9 @@ const defaultContent = {
     imageSrc: "",
     imageAlt: "The photo I want framed forever",
     imageLabel: "Image Placeholder: The photo I want framed forever",
+    imageFit: "cover",
+    imagePositionX: 50,
+    imagePositionY: 50,
   },
 };
 

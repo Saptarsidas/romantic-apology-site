@@ -10,7 +10,7 @@ import Page7WordScramble from "./pages/Page7WordScramble";
 import AdminPage from "./pages/AdminPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import { SiteContentProvider } from "./content/SiteContentContext";
-import { isAdminAuthenticated } from "./auth/adminAuth";
+import { AdminAuthProvider, useAdminAuth } from "./auth/AdminAuthContext";
 
 const pageVariants = {
   initial: { opacity: 0, y: 20, scale: 0.99 },
@@ -19,7 +19,13 @@ const pageVariants = {
 };
 
 function ProtectedAdmin() {
-  if (!isAdminAuthenticated()) {
+  const { ready, authenticated } = useAdminAuth();
+
+  if (!ready) {
+    return <div className="min-h-screen p-10 text-center text-rose-800">Loading secure admin...</div>;
+  }
+
+  if (!authenticated) {
     return <Navigate to="/admin-login" replace />;
   }
 
@@ -164,20 +170,19 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
-  const adminTarget =
-    typeof window !== "undefined" && isAdminAuthenticated() ? "/admin" : "/admin-login";
-
   return (
-    <SiteContentProvider>
-      <div className="min-h-screen overflow-x-hidden romantic-bg text-rose-900">
-        <Link
-          to={adminTarget}
-          className="fixed right-4 top-4 z-20 rounded-full border border-rose-300 bg-white/85 px-4 py-2 text-xs font-bold text-rose-800 backdrop-blur hover:bg-white"
-        >
-          Edit Content
-        </Link>
-        <AnimatedRoutes />
-      </div>
-    </SiteContentProvider>
+    <AdminAuthProvider>
+      <SiteContentProvider>
+        <div className="min-h-screen overflow-x-hidden romantic-bg text-rose-900">
+          <Link
+            to="/admin-login"
+            className="fixed right-4 top-4 z-20 rounded-full border border-rose-300 bg-white/85 px-4 py-2 text-xs font-bold text-rose-800 backdrop-blur hover:bg-white"
+          >
+            Edit Content
+          </Link>
+          <AnimatedRoutes />
+        </div>
+      </SiteContentProvider>
+    </AdminAuthProvider>
   );
 }

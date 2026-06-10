@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "../content/SiteContentContext";
+import RomanticPhotoFrame from "../components/RomanticPhotoFrame";
 
 export default function Page1Question() {
   const [noPos, setNoPos] = useState({ x: 64, y: 54 });
@@ -23,19 +24,15 @@ export default function Page1Question() {
             <p className="text-base text-rose-800 sm:text-lg">{page.subtitle}</p>
           </div>
 
-          <div className="relative h-56 rounded-2xl border-2 border-dashed border-rose-300 bg-rose-50/70 p-4 sm:h-72">
-            {page.imageSrc ? (
-              <img
-                src={page.imageSrc}
-                alt={page.imageAlt || "You looking adorably angry"}
-                className="h-full w-full rounded-xl object-cover"
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center rounded-xl bg-gradient-to-br from-white to-rose-100 text-center text-sm font-semibold text-rose-500">
-                {page.imageLabel}
-              </div>
-            )}
-          </div>
+          <RomanticPhotoFrame
+            imageSrc={page.imageSrc}
+            imageAlt={page.imageAlt}
+            imageLabel={page.imageLabel}
+            imageFit={page.imageFit}
+            imagePositionX={page.imagePositionX}
+            imagePositionY={page.imagePositionY}
+            className="h-56 sm:h-72"
+          />
         </div>
 
         <div className="mt-8 rounded-2xl border border-rose-200 bg-white/70 p-4">

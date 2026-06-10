@@ -8,11 +8,7 @@ export default function Page5LoveClicker() {
 
   return (
     <PageShell
-      title={page.title}
-      subtitle={page.subtitle}
-      imageSrc={page.imageSrc}
-      imageAlt={page.imageAlt}
-      imageLabel={page.imageLabel}
+      {...page}
       nextTo="/page-6"
       nextText="Next Page"
     >

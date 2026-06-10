@@ -1,64 +1,64 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import defaultContent from "../data/defaultContent";
 
-const STORAGE_KEY = "romantic-site-content-v1";
 const SiteContentContext = createContext(null);
-
-function mergeWithDefaults(saved) {
-  if (!saved || typeof saved !== "object") return defaultContent;
-
-  const merged = { ...defaultContent };
-
-  Object.keys(defaultContent).forEach((pageKey) => {
-    merged[pageKey] = {
-      ...defaultContent[pageKey],
-      ...(saved[pageKey] || {}),
-    };
-  });
-
-  return merged;
-}
 
 export function SiteContentProvider({ children }) {
   const [content, setContent] = useState(defaultContent);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      setContent(mergeWithDefaults(parsed));
-    } catch {
-      setContent(defaultContent);
-    }
+    fetch("/api/content", { credentials: "include" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.content) {
+          setContent(data.content);
+        }
+      })
+      .catch(() => setContent(defaultContent))
+      .finally(() => setReady(true));
   }, []);
 
-  const updatePage = (pageKey, field, value) => {
-    setContent((prev) => {
-      const next = {
-        ...prev,
-        [pageKey]: {
-          ...prev[pageKey],
-          [field]: value,
-        },
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      return next;
+  const updatePage = async (pageKey, updates) => {
+    const response = await fetch(`/api/content/${pageKey}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(updates),
     });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Update failed");
+    }
+
+    setContent(data.content);
+    return data.content;
   };
 
-  const resetContent = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    setContent(defaultContent);
+  const resetContent = async () => {
+    const response = await fetch("/api/content/reset", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Reset failed");
+    }
+
+    setContent(data.content);
+    return data.content;
   };
 
   const value = useMemo(
     () => ({
       content,
+      ready,
       updatePage,
       resetContent,
     }),
-    [content]
+    [content, ready]
   );
 
   return <SiteContentContext.Provider value={value}>{children}</SiteContentContext.Provider>;

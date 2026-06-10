@@ -8,11 +8,7 @@ export default function Page3TicTacToe() {
 
   return (
     <PageShell
-      title={page.title}
-      subtitle={page.subtitle}
-      imageSrc={page.imageSrc}
-      imageAlt={page.imageAlt}
-      imageLabel={page.imageLabel}
+      {...page}
       nextTo="/page-4"
       nextText="Next Page"
     >
