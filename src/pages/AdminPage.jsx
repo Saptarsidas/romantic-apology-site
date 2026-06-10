@@ -1,5 +1,11 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useSiteContent } from "../content/SiteContentContext";
+import {
+  changeAdminPassword,
+  logoutAdmin,
+  verifyPassword,
+} from "../auth/adminAuth";
 
 const pageOrder = ["page1", "page2", "page3", "page4", "page5", "page6", "page7"];
 
@@ -7,8 +13,60 @@ function prettyPageName(pageKey) {
   return pageKey.replace("page", "Page ");
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function AdminPage() {
+  const navigate = useNavigate();
   const { content, updatePage, resetContent } = useSiteContent();
+  const [status, setStatus] = useState("");
+  const [currentPass, setCurrentPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+
+  const onUploadImage = async (pageKey, file) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setStatus("Only image files are allowed.");
+      return;
+    }
+
+    const dataUrl = await fileToDataUrl(file);
+    updatePage(pageKey, "imageSrc", dataUrl);
+    updatePage(pageKey, "imageAlt", file.name);
+    setStatus(`Uploaded image for ${prettyPageName(pageKey)}.`);
+  };
+
+  const onSavePassword = async (event) => {
+    event.preventDefault();
+
+    if (!newPass || newPass.length < 6) {
+      setStatus("New password must be at least 6 characters.");
+      return;
+    }
+
+    const validCurrent = await verifyPassword(currentPass);
+    if (!validCurrent) {
+      setStatus("Current password is wrong.");
+      return;
+    }
+
+    await changeAdminPassword(newPass);
+    setCurrentPass("");
+    setNewPass("");
+    setStatus("Admin password updated successfully.");
+  };
+
+  const onLogout = () => {
+    logoutAdmin();
+    navigate("/admin-login", { replace: true });
+  };
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-5xl px-4 py-8 sm:px-6">
@@ -27,6 +85,12 @@ export default function AdminPage() {
             >
               Reset Defaults
             </button>
+            <button
+              onClick={onLogout}
+              className="rounded-full border border-rose-300 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100"
+            >
+              Logout
+            </button>
             <Link
               to="/"
               className="rounded-full bg-rose-600 px-4 py-2 text-sm font-bold text-white hover:bg-rose-700"
@@ -35,6 +99,39 @@ export default function AdminPage() {
             </Link>
           </div>
         </div>
+
+        <form onSubmit={onSavePassword} className="mb-5 grid gap-3 rounded-2xl border border-rose-200 bg-white p-4 md:grid-cols-3">
+          <label className="text-sm font-semibold text-rose-700">
+            Current Password
+            <input
+              type="password"
+              value={currentPass}
+              onChange={(e) => setCurrentPass(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-rose-200 px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label className="text-sm font-semibold text-rose-700">
+            New Password
+            <input
+              type="password"
+              value={newPass}
+              onChange={(e) => setNewPass(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-rose-200 px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <div className="flex items-end">
+            <button
+              type="submit"
+              className="rounded-full bg-rose-600 px-4 py-2 text-sm font-bold text-white hover:bg-rose-700"
+            >
+              Update Password
+            </button>
+          </div>
+        </form>
+
+        {status ? <p className="mb-5 text-sm font-semibold text-rose-700">{status}</p> : null}
 
         <div className="space-y-5">
           {pageOrder.map((pageKey) => {
@@ -58,6 +155,16 @@ export default function AdminPage() {
                       value={page.imageSrc}
                       onChange={(e) => updatePage(pageKey, "imageSrc", e.target.value)}
                       placeholder="https://... or /photos/page1.jpg"
+                      className="mt-1 w-full rounded-xl border border-rose-200 px-3 py-2 text-sm"
+                    />
+                  </label>
+
+                  <label className="text-sm font-semibold text-rose-700">
+                    Upload Picture
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => onUploadImage(pageKey, e.target.files?.[0])}
                       className="mt-1 w-full rounded-xl border border-rose-200 px-3 py-2 text-sm"
                     />
                   </label>
@@ -89,6 +196,25 @@ export default function AdminPage() {
                       className="mt-1 w-full rounded-xl border border-rose-200 px-3 py-2 text-sm"
                     />
                   </label>
+
+                  <div className="md:col-span-2">
+                    {page.imageSrc ? (
+                      <div className="space-y-2">
+                        <img
+                          src={page.imageSrc}
+                          alt={page.imageAlt || page.imageLabel}
+                          className="h-36 w-full rounded-xl object-cover md:h-48"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => updatePage(pageKey, "imageSrc", "")}
+                          className="rounded-full border border-rose-300 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100"
+                        >
+                          Remove Picture
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             );

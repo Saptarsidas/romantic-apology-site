@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Link, Routes, Route, useLocation } from "react-router-dom";
+import { Link, Navigate, Routes, Route, useLocation } from "react-router-dom";
 import Page1Question from "./pages/Page1Question";
 import Page2Apology from "./pages/Page2Apology";
 import Page3TicTacToe from "./pages/Page3TicTacToe";
@@ -8,13 +8,23 @@ import Page5LoveClicker from "./pages/Page5LoveClicker";
 import Page6Quiz from "./pages/Page6Quiz";
 import Page7WordScramble from "./pages/Page7WordScramble";
 import AdminPage from "./pages/AdminPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import { SiteContentProvider } from "./content/SiteContentContext";
+import { isAdminAuthenticated } from "./auth/adminAuth";
 
 const pageVariants = {
   initial: { opacity: 0, y: 20, scale: 0.99 },
   animate: { opacity: 1, y: 0, scale: 1 },
   exit: { opacity: 0, y: -20, scale: 0.99 },
 };
+
+function ProtectedAdmin() {
+  if (!isAdminAuthenticated()) {
+    return <Navigate to="/admin-login" replace />;
+  }
+
+  return <AdminPage />;
+}
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -130,7 +140,21 @@ function AnimatedRoutes() {
               exit="exit"
               transition={{ duration: 0.45, ease: "easeInOut" }}
             >
-              <AdminPage />
+              <ProtectedAdmin />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/admin-login"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.45, ease: "easeInOut" }}
+            >
+              <AdminLoginPage />
             </motion.div>
           }
         />
@@ -140,11 +164,14 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
+  const adminTarget =
+    typeof window !== "undefined" && isAdminAuthenticated() ? "/admin" : "/admin-login";
+
   return (
     <SiteContentProvider>
       <div className="min-h-screen overflow-x-hidden romantic-bg text-rose-900">
         <Link
-          to="/admin"
+          to={adminTarget}
           className="fixed right-4 top-4 z-20 rounded-full border border-rose-300 bg-white/85 px-4 py-2 text-xs font-bold text-rose-800 backdrop-blur hover:bg-white"
         >
           Edit Content
