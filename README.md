@@ -17,6 +17,21 @@ npm install
 npm run dev
 ```
 
+Open `http://localhost:5173/admin` to edit titles, messages, and photo URLs dynamically.
+
+## Add Your Pictures
+
+Option 1 (recommended):
+
+1. Put images in `public/photos` (example: `public/photos/page1.jpg`).
+2. In Admin page, set image path as `/photos/page1.jpg`.
+
+Option 2:
+
+- Use full image URLs from anywhere (example: `https://.../photo.jpg`).
+
+All admin changes are saved in browser local storage instantly.
+
 ## Build
 
 ```bash

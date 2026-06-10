@@ -1,12 +1,18 @@
 import PageShell from "../components/PageShell";
 import SweetQuizGame from "../components/games/SweetQuizGame";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Page6Quiz() {
+  const { content } = useSiteContent();
+  const page = content.page6;
+
   return (
     <PageShell
-      title="Know My Promise"
-      subtitle="I am learning to love you better by listening better."
-      imageLabel="Image Placeholder: A calm cozy photo of us"
+      title={page.title}
+      subtitle={page.subtitle}
+      imageSrc={page.imageSrc}
+      imageAlt={page.imageAlt}
+      imageLabel={page.imageLabel}
       nextTo="/page-7"
       nextText="Next Page"
     >

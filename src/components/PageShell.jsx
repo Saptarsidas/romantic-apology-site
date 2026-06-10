@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 export default function PageShell({
   title,
   subtitle,
+  imageSrc,
+  imageAlt,
   imageLabel,
   nextTo,
   nextText = "Next Page",
@@ -19,9 +21,17 @@ export default function PageShell({
           </div>
 
           <div className="relative h-56 rounded-2xl border-2 border-dashed border-rose-300 bg-rose-50/70 p-4 sm:h-72">
-            <div className="flex h-full items-center justify-center rounded-xl bg-gradient-to-br from-white to-rose-100 text-center text-sm font-semibold text-rose-500">
-              {imageLabel}
-            </div>
+            {imageSrc ? (
+              <img
+                src={imageSrc}
+                alt={imageAlt || "Romantic memory"}
+                className="h-full w-full rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-xl bg-gradient-to-br from-white to-rose-100 text-center text-sm font-semibold text-rose-500">
+                {imageLabel}
+              </div>
+            )}
           </div>
         </div>
 

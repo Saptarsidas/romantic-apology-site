@@ -1,12 +1,18 @@
 import PageShell from "../components/PageShell";
 import TicTacToeGame from "../components/games/TicTacToeGame";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Page3TicTacToe() {
+  const { content } = useSiteContent();
+  const page = content.page3;
+
   return (
     <PageShell
-      title="Our Little Battles"
-      subtitle="Even when we disagree, I still choose us. Every. Single. Day."
-      imageLabel="Image Placeholder: A playful candid memory"
+      title={page.title}
+      subtitle={page.subtitle}
+      imageSrc={page.imageSrc}
+      imageAlt={page.imageAlt}
+      imageLabel={page.imageLabel}
       nextTo="/page-4"
       nextText="Next Page"
     >

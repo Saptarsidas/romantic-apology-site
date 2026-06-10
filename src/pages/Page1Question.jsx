@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Page1Question() {
   const [noPos, setNoPos] = useState({ x: 64, y: 54 });
+  const { content } = useSiteContent();
+  const page = content.page1;
 
   const dodge = () => {
     setNoPos({
@@ -16,16 +19,22 @@ export default function Page1Question() {
       <section className="float-in w-full rounded-3xl border border-rose-200/70 bg-white/70 p-5 shadow-2xl shadow-rose-300/35 backdrop-blur sm:p-8">
         <div className="grid gap-6 md:grid-cols-2 md:items-center">
           <div className="space-y-3">
-            <h1 className="text-4xl font-bold leading-tight text-rose-900 sm:text-5xl">Do you still love me?</h1>
-            <p className="text-base text-rose-800 sm:text-lg">
-              I know I messed up. Please give me one chance to make this right.
-            </p>
+            <h1 className="text-4xl font-bold leading-tight text-rose-900 sm:text-5xl">{page.title}</h1>
+            <p className="text-base text-rose-800 sm:text-lg">{page.subtitle}</p>
           </div>
 
           <div className="relative h-56 rounded-2xl border-2 border-dashed border-rose-300 bg-rose-50/70 p-4 sm:h-72">
-            <div className="flex h-full items-center justify-center rounded-xl bg-gradient-to-br from-white to-rose-100 text-center text-sm font-semibold text-rose-500">
-              Image Placeholder: You looking adorably angry
-            </div>
+            {page.imageSrc ? (
+              <img
+                src={page.imageSrc}
+                alt={page.imageAlt || "You looking adorably angry"}
+                className="h-full w-full rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-xl bg-gradient-to-br from-white to-rose-100 text-center text-sm font-semibold text-rose-500">
+                {page.imageLabel}
+              </div>
+            )}
           </div>
         </div>
 

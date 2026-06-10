@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import WordScrambleGame from "../components/games/WordScrambleGame";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Page7WordScramble() {
+  const { content } = useSiteContent();
+  const page = content.page7;
+
   return (
     <PageShell
-      title="Final Promise"
-      subtitle="No perfect words, just a real promise: I will do better, and I will love you louder."
-      imageLabel="Image Placeholder: The photo I want framed forever"
+      title={page.title}
+      subtitle={page.subtitle}
+      imageSrc={page.imageSrc}
+      imageAlt={page.imageAlt}
+      imageLabel={page.imageLabel}
       showNext={false}
     >
       <WordScrambleGame />
