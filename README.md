@@ -63,14 +63,19 @@ git remote add origin https://github.com/<your-username>/romantic-apology-site.g
 git push -u origin main
 ```
 
-## Deploy On Render
+## Deploy On Render (Web Service)
 
-Use Blueprint deploy so Render reads `render.yaml` automatically.
+This project is configured for Render Web Service using Node + Express.
 
 1. Open Render dashboard.
 2. Click New +.
-3. Select Blueprint.
-4. Pick this GitHub repository.
+3. Select Blueprint and choose this repository.
+4. Render will use `render.yaml` automatically.
 5. Click Apply.
 
-This project is configured as an SPA with a rewrite rule to `/index.html`, so refreshing deep links like `/page-4` works in production.
+Or create it manually as Web Service with:
+
+- Build Command: `npm install && npm run build`
+- Start Command: `npm start`
+
+The Express server includes SPA fallback to `index.html`, so paths like `/page-4` and `/admin` work on refresh.
