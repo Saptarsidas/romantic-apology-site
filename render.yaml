@@ -7,5 +7,23 @@ services:
     pullRequestPreviewsEnabled: true
     routes:
       - type: rewrite
-        source: /*
+        source: /admin
+        destination: /index.html
+      - type: rewrite
+        source: /page-2
+        destination: /index.html
+      - type: rewrite
+        source: /page-3
+        destination: /index.html
+      - type: rewrite
+        source: /page-4
+        destination: /index.html
+      - type: rewrite
+        source: /page-5
+        destination: /index.html
+      - type: rewrite
+        source: /page-6
+        destination: /index.html
+      - type: rewrite
+        source: /page-7
         destination: /index.html
