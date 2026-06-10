@@ -22,7 +22,7 @@ Open `http://localhost:5173/admin` to edit titles, messages, and photo URLs dyna
 Admin is now password protected:
 
 - Login URL: `/admin-login`
-- Set the initial password with `ADMIN_PASSWORD` on Render.
+- Set or change the password with `ADMIN_PASSWORD` on Render.
 - Set a strong `COOKIE_SECRET` on Render for signed admin sessions.
 - You can change the password from inside the Admin panel after logging in.
 

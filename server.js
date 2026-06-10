@@ -113,6 +113,15 @@ async function ensureDb() {
     await persistDb();
   }
 
+  const envPassword = process.env.ADMIN_PASSWORD?.trim();
+  if (envPassword) {
+    const matches = await bcrypt.compare(envPassword, dbCache.admin.passwordHash);
+    if (!matches) {
+      dbCache.admin.passwordHash = await bcrypt.hash(envPassword, 12);
+      await persistDb();
+    }
+  }
+
   return dbCache;
 }
 
