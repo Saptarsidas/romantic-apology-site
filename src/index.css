@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Nunito:wght@400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rose-1: #ffe1e8;
+  --rose-2: #ffc8d7;
+  --rose-3: #ff9bb3;
+  --cream: #fff6ef;
+  --ink: #4b1e2f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #fff0f5 0%, #ffd7e3 45%, #ffc4d8 100%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", serif;
+}
+
+.romantic-bg {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.75) 0 12%, transparent 12%),
+    radial-gradient(circle at 80% 10%, rgba(255, 210, 224, 0.8) 0 15%, transparent 15%),
+    linear-gradient(140deg, var(--cream), #ffd8e5 45%, #ffc6da 100%);
+}
+
+.float-in {
+  animation: floatIn 0.7s ease both;
+}
+
+@keyframes floatIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes softPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+.pulse-love {
+  animation: softPulse 1.6s ease-in-out infinite;
+}
