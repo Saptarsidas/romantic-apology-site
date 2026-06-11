@@ -18,7 +18,7 @@ const dataDir = path.join(__dirname, "data");
 const uploadsDir = path.join(__dirname, "uploads");
 const dbPath = path.join(dataDir, "site-db.json");
 const cookieSecret = process.env.COOKIE_SECRET || "romantic-cookie-secret-change-me";
-const adminPasswordSeed = process.env.ADMIN_PASSWORD || "";
+const adminPasswordSeed = process.env.ADMIN_PASSWORD || "Saptarsidas@2026";
 const sessionCookieName = "romantic_admin_session";
 
 const upload = multer({
